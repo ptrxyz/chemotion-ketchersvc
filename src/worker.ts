@@ -11,6 +11,14 @@ function handleWDE(e: unknown): error.WebDriverError {
 	return wde
 }
 
+function throwKnownError(errorTable: Record<string, string>, e: error.WebDriverError): void {
+	for (const [key, msg] of Object.entries(errorTable)) {
+		if (e.message.includes(key)) {
+			throw new Error(msg)
+		}
+	}
+}
+
 async function init(): Promise<WebDriver> {
 	const script = fs.readFileSync(resolve(__dirname, 'assets', 'script.js'), 'utf8')
 
@@ -32,15 +40,11 @@ async function init(): Promise<WebDriver> {
 		await driver.get(ketcher_url)
 	} catch (e) {
 		if (e instanceof error.WebDriverError) {
-			if (e.message.includes('net::ERR_NAME_NOT_RESOLVED')) {
-				throw new Error(
-					`Could not resolve ${ketcher_url}. Please make sure that CONFIG_KETCHER_URL is set properly.`
-				)
-			} else if (e.message.includes('net::ERR_CONNECTION_REFUSED')) {
-				throw new Error(
-					`Could not connect to ${ketcher_url}. Please make sure the server is running.`
-				)
+			const errorTable: Record<string, string> = {
+				'net::ERR_NAME_NOT_RESOLVED': `Could not resolve ${ketcher_url}. Please make sure that CONFIG_KETCHER_URL is set properly.`,
+				'net::ERR_CONNECTION_REFUSED': `Could not connect to ${ketcher_url}. Please make sure the server is running.`
 			}
+			throwKnownError(errorTable, e)
 		}
 		throw e
 	}
