@@ -1,0 +1,13 @@
+.DS_Store
+node_modules
+/dist
+src/.env
+src/.env.*
+!src/.env.example
+# ignore file shipped to browser
+src/assets/
+
+# Ignore files for PNPM, NPM and YARN
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
