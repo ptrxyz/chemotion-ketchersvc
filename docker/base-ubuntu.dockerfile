@@ -12,4 +12,5 @@ RUN apt-get install -y --no-install-recommends google-chrome-stable; \
     CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION"); \
     wget -q --continue -P /chromedriver "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"; \
     unzip /chromedriver/chromedriver* -d /usr/local/bin/
-RUN apt-get install -y --no-install-recommends nodejs npm
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - && apt-get update -y
+RUN apt-get install -y --no-install-recommends nodejs
