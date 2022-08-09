@@ -4,7 +4,7 @@ FROM ${BASE}
 
 WORKDIR /src
 ADD ["package.json", "package-lock.json", "/src/"]
-RUN npm install --production
+RUN npm install --omit=dev
 ADD [".", "/src/"]
 
 EXPOSE 9000
