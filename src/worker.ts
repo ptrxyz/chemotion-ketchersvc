@@ -1,3 +1,5 @@
+'use strict'
+
 import { Builder, Browser, WebDriver } from 'selenium-webdriver'
 import { error } from 'selenium-webdriver'
 import fs from 'fs'
@@ -19,7 +21,7 @@ function throwKnownError(errorTable: Record<string, string>, e: error.WebDriverE
 	}
 }
 
-async function init(): Promise<WebDriver> {
+async function init(ketcher_url: string): Promise<WebDriver> {
 	const script = fs.readFileSync(resolve(__dirname, 'assets', 'script.js'), 'utf8')
 
 	const opts = new chrome.Options()
@@ -34,8 +36,6 @@ async function init(): Promise<WebDriver> {
 	opts.addArguments('--disable-extensions')
 
 	const driver = await new Builder().forBrowser(Browser.CHROME).setChromeOptions(opts).build()
-	const ketcher_url: string =
-		process.env['CONFIG_KETCHER_URL'] || 'http://chemotion.ptrxyz.de/ketcher2/'
 	try {
 		await driver.get(ketcher_url)
 	} catch (e) {
@@ -75,7 +75,11 @@ function render(driver: WebDriver, molfile: string): Promise<string> {
 }
 
 async function initalize(): Promise<({ molfile }: { molfile: string }) => Promise<string>> {
-	const driver: WebDriver = await init()
+	const ketcher_url = process.env['KETCHER_URL']
+	if (!ketcher_url) {
+		throw new Error('KETCHER_URL is not set in worker thread.')
+	}
+	const driver: WebDriver = await init(ketcher_url)
 
 	function do_render({ molfile }: { molfile: string }): Promise<string> {
 		return render(driver, molfile)
