@@ -10,16 +10,16 @@ variable "FLAVOR" {
 }
 
 target "base" {
-    # dockerfile is relative to context `dist/`
-    dockerfile = "../docker/base-${FLAVOR}.dockerfile"
-    context = "dist/"
+    # dockerfile is relative to context `dist/src/`
+    dockerfile = "../../docker/base-${FLAVOR}.dockerfile"
+    context = "dist/src/"
     tags = ["ketchersvc:base-${FLAVOR}"]
 }
 
 target "app" {
     inherits = ["base"]
-    dockerfile = "../docker/app.dockerfile"
-    context = "dist/"
+    dockerfile = "../../docker/app.dockerfile"
+    context = "dist/src/"
     contexts = {
         base = "target:base"
     }
