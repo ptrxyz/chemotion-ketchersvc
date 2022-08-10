@@ -4,7 +4,8 @@ node_modules
 src/.env
 src/.env.*
 !src/.env.example
-# ignore file shipped to browser
+
+# Ignore static user assets
 src/assets/
 
 # Ignore files for PNPM, NPM and YARN
