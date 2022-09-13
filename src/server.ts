@@ -39,7 +39,7 @@ function build({ piscina }: { piscina: Piscina }) {
 			const { molfile } = request.body
 			const ret = await piscina.run({ molfile })
 			if (ret.startsWith('<svg ')) {
-				reply.code(200).send(ret)
+				reply.code(200).send({ svg: ret })
 			} else {
 				reply.code(500)
 			}
