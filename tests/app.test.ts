@@ -19,11 +19,12 @@ const init = async (config: IConfig) => {
 const run_tests = async () => {
 	const fastify = await init(configure())
 	const response = await fastify.inject({
-		method: 'GET',
-		url: '/'
+		method: 'POST',
+		url: '/render',
+		payload: { molfile: 'molfile' }
 	})
 
-	console.log('status code: ', response.statusCode)
-	console.log('body: ', response.body)
+	console.log('Status code: ', response.statusCode)
+	console.log('Body is SVG: ', JSON.parse(response.body).svg.startsWith('<svg '))
 }
 run_tests()
