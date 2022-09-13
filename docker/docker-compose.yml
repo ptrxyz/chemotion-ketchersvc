@@ -10,3 +10,4 @@ services:
             - CONFIG_KETCHER_URL=https://chemotion/ketcher/
             - CONFIG_MIN_WORKERS=1
             - CONFIG_MAX_WORKERS=4
+        init: true
