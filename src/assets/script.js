@@ -1,4 +1,5 @@
 window.renderMolfile = function renderMolfile(molfile) {
+    window.alert = () => {}
     ketcher.init()
     ketcher.setMolecule(molfile)
     ui.render.update()
