@@ -15,18 +15,18 @@
 	"author": "Peter Krauß <peter.krauss@kit.edu>",
 	"license": "ISC",
 	"dependencies": {
-		"dotenv": "^16.0.1",
-		"fastify": "^4.4.0",
-		"piscina": "^3.2.0",
-		"selenium-webdriver": "^4.3.1"
+		"dotenv": "^16.4.5",
+		"fastify": "^5.0.0",
+		"piscina": "^4.7.0",
+		"selenium-webdriver": "^4.24.1"
 	},
 	"devDependencies": {
-		"@types/selenium-webdriver": "^4.1.2",
-		"@typescript-eslint/eslint-plugin": "^5.33.0",
-		"@typescript-eslint/parser": "^5.33.0",
-		"eslint": "^8.21.0",
-		"eslint-config-prettier": "^8.5.0",
-		"prettier": "^2.7.1",
-		"typescript": "^4.7.4"
+		"@types/selenium-webdriver": "^4.1.26",
+		"@typescript-eslint/eslint-plugin": "^8.6.0",
+		"@typescript-eslint/parser": "^8.6.0",
+		"eslint": "^9.10.0",
+		"eslint-config-prettier": "^9.1.0",
+		"prettier": "^3.3.3",
+		"typescript": "^5.6.2"
 	}
 }

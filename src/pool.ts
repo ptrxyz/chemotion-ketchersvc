@@ -20,11 +20,6 @@ function build({ min_threads, max_threads, ketcher_url }: IPiscinaBuildParams): 
 		}
 	})
 
-	piscina.addListener('error', (err) => {
-		console.error(err)
-		process.exit(2)
-	})
-
 	return piscina
 }
 export { build }
