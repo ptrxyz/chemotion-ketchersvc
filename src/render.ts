@@ -4,7 +4,7 @@ import { chromium } from 'playwright'
 
 export class BrowserControl {
 	public page: Page | null = null
-	constructor(private ketcherURL = 'http://localhost:3000/ketcher/ketcher.html') {}
+	constructor(private ketcherURL = 'http://localhost:4000/ketcher/ketcher.html') {}
 
 	public initalize = async () => {
 		const script = await Bun.file(`${import.meta.dirname}/assets/script.js`).text()

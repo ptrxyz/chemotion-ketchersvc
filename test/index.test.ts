@@ -6,11 +6,12 @@ import { beforeAll, afterAll } from 'bun:test'
 import { test, expect } from 'bun:test'
 
 import '../src/index'
+import { config } from '../src/config'
 
 let api: ReturnType<typeof treaty<App>>
 
 beforeAll(async () => {
-	api = treaty<App>('http://localhost:3000')
+	api = treaty<App>(`http://localhost:${config.port}`)
 })
 
 afterAll(async () => {

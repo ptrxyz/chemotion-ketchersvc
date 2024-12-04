@@ -2,6 +2,7 @@ import { staticPlugin } from '@elysiajs/static'
 import Debug from 'debug'
 import { Elysia } from 'elysia'
 
+import { config } from './config'
 import { KetcherPlugin } from './plugin-ketcher'
 import { BrowserControl } from './render'
 
@@ -12,7 +13,7 @@ process.on('SIGINT', () => {
 
 const logger = Debug('Ketcher:')
 if (!logger.enabled) Debug.debug.enable('Ketcher:*')
-const bc = new BrowserControl(process.env.KETCHER_URL)
+const bc = new BrowserControl(config.ketcherURL)
 
 const app = new Elysia()
 	.use(
@@ -26,7 +27,7 @@ const app = new Elysia()
 	)
 	.use(KetcherPlugin({ bc, logger: logger.extend('Core') }))
 	.listen({
-		port: 3000,
+		port: config.port,
 		hostname: '0.0.0.0'
 	})
 
