@@ -81,5 +81,8 @@ export default ts.config(
 			'import-x/newline-after-import': ['error', { count: 1 }],
 			'import-x/no-unresolved': ['error', { ignore: ['bun'] }]
 		}
+	},
+	{
+		ignores: ['src/assets/ketcher/**', 'test/fixtures/**', 'dist/**']
 	}
 )
