@@ -1,6 +1,6 @@
 {
   "name": "ketchersvc",
-  "module": "index.ts",
+  "version": "1.0.1",
   "type": "module",
   "devDependencies": {
     "@elysiajs/eden": "^1.1.3",
