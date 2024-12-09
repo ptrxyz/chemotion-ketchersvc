@@ -28,7 +28,9 @@
     "format": "prettier --write .",
     "test": "bun test",
     "dev": "bun ./src/index.ts",
-    "build": "rm -rf ./dist/ && bun build --target bun --outdir dist ./src/index.ts && cp -r ./src/assets ./dist/assets"
+    "build": "rm -rf ./dist/ && bun build --target bun --outdir dist ./src/index.ts && cp -r ./src/assets ./dist/assets",
+    "containerize": "docker build -t ketchersvc .",
+    "container-test": "docker run --name ketchersvc-test-container --rm -p 4000:4000 ketchersvc & (sleep 3; curl -H 'Content-Type: application/json' -X POST -d @test/fixtures/molfile/test.json http://localhost:4000/render; docker rm -f ketchersvc-test-container)"
   },
   "dependencies": {
     "playwright": "^1.49.0"
