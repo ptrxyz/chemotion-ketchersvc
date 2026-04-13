@@ -6,14 +6,27 @@ import { config } from './config'
 import { KetcherPlugin } from './plugin-ketcher'
 import { BrowserControl } from './render'
 
-process.on('SIGINT', () => {
-	console.log('Caught interrupt signal')
-	process.exit()
-})
-
 const logger = Debug('Ketcher:')
 if (!logger.enabled) Debug.debug.enable('Ketcher:*')
-const bc = new BrowserControl(config.ketcherURL)
+const bc = new BrowserControl(config.ketcherURL, config.chromiumExecutablePath)
+
+let isShuttingDown = false
+
+const shutdown = async (signal: NodeJS.Signals) => {
+	if (isShuttingDown) return
+	isShuttingDown = true
+	logger(`Received ${signal}, shutting down browser...`)
+	await bc.close()
+	process.exit(0)
+}
+
+process.on('SIGINT', () => {
+	void shutdown('SIGINT')
+})
+
+process.on('SIGTERM', () => {
+	void shutdown('SIGTERM')
+})
 
 const app = new Elysia()
 	.use(
@@ -33,7 +46,7 @@ const app = new Elysia()
 
 logger(`🚀 Starting up...`)
 
-const { ketcherURL } = await bc.initalize()
+const { ketcherURL } = await bc.initialize()
 logger(`Ketcher is running on [${ketcherURL}]`)
 
 logger(
