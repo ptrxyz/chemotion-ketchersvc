@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@sinclair/typebox": "^0.34.15",
+    "chromium-bidi": "^15.0.0",
     "openapi-types": "^12",
     "playwright": "^1.59.1"
   }
