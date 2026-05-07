@@ -46,35 +46,45 @@ export class BrowserControl {
 			await this.close()
 
 			const script = await Bun.file(`${import.meta.dirname}/assets/script.js`).text()
-			const browser = await chromium.launch({
-				headless: true,
-				executablePath: this.chromiumExecutablePath
-			})
-			const context = await browser.newContext()
-			const page = await context.newPage()
+			let browser: Browser | null = null
+			let context: BrowserContext | null = null
+			let page: Page | null = null
 
-			await page.goto(this.ketcherURL, { timeout: BROWSER_READY_TIMEOUT_MS })
-			await page.waitForFunction(
-				() => Boolean((window as unknown as { ketcher?: unknown }).ketcher),
-				undefined,
-				{ timeout: BROWSER_READY_TIMEOUT_MS }
-			)
-			// @ts-expect-error -- this is the script that runs inside the context of the browser
-			await page.evaluate(new Function(script))
+			try {
+				browser = await chromium.launch({
+					headless: true,
+					executablePath: this.chromiumExecutablePath
+				})
+				context = await browser.newContext()
+				page = await context.newPage()
 
-			this.browser = browser
-			this.context = context
-			this.page = page
+				await page.goto(this.ketcherURL, { timeout: BROWSER_READY_TIMEOUT_MS })
+				await page.waitForFunction(
+					() => Boolean((window as unknown as { ketcher?: unknown }).ketcher),
+					undefined,
+					{ timeout: BROWSER_READY_TIMEOUT_MS }
+				)
+				// @ts-expect-error -- this is the script that runs inside the context of the browser
+				await page.evaluate(new Function(script))
 
-			return { page, ketcherURL: this.ketcherURL }
-		})()
-			.catch(async (error) => {
-				await this.close()
+				this.browser = browser
+				this.context = context
+				this.page = page
+
+				return { page, ketcherURL: this.ketcherURL }
+			} catch (error) {
+				const closers: Promise<void>[] = []
+
+				if (page) closers.push(page.close().catch(() => undefined))
+				if (context) closers.push(context.close().catch(() => undefined))
+				if (browser) closers.push(browser.close().catch(() => undefined))
+
+				await Promise.all(closers)
 				throw error
-			})
-			.finally(() => {
-				this.initPromise = null
-			})
+			}
+		})().finally(() => {
+			this.initPromise = null
+		})
 
 		return this.initPromise
 	}
