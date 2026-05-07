@@ -81,8 +81,6 @@ export class BrowserControl {
 
 	public initialize = async () => this.ensureInitialized()
 
-	public initalize = async () => this.initialize()
-
 	public restart = async () => {
 		await this.close()
 		return this.initialize()
