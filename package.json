@@ -4,21 +4,20 @@
   "type": "module",
   "devDependencies": {
     "@elysiajs/eden": "^1.4.9",
-    "@elysiajs/static": "^1.4.9",
+    "@elysiajs/static": "^1.4.10",
     "@eslint/js": "^10.0.1",
     "@types/bun": "latest",
     "@types/debug": "^4.1.13",
     "@types/eslint-config-prettier": "^6.11.3",
     "debug": "^4.4.3",
-    "electron": "^41.2.0",
     "elysia": "^1.4.28",
-    "eslint": "^10.2.0",
+    "eslint": "^10.3.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import-x": "^4.16.2",
-    "prettier": "^3.8.2",
-    "typescript": "^6.0.2",
-    "typescript-eslint": "^8.58.1"
+    "prettier": "^3.8.3",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.2"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -29,12 +28,12 @@
     "test": "bun test",
     "typecheck": "bunx tsc -p tsconfig.typecheck.json --noEmit",
     "dev": "bun ./src/index.ts",
-    "build": "rm -rf ./dist/ && bun build --target bun --outdir dist ./src/index.ts && cp -r ./src/assets ./dist/assets",
+    "build": "rm -rf ./dist/ && bun build --target bun --external electron --outdir dist ./src/index.ts && cp -r ./src/assets ./dist/assets",
     "containerize": "docker build -t ketchersvc .",
     "container-test": "docker run --name ketchersvc-test-container --rm -p 4000:4000 ketchersvc & (sleep 3; curl -H 'Content-Type: application/json' -X POST -d @test/fixtures/molfile/test.json http://localhost:4000/render; docker rm -f ketchersvc-test-container)"
   },
   "dependencies": {
-    "@sinclair/typebox": "^0.34.15",
+    "@sinclair/typebox": "^0.34.49",
     "chromium-bidi": "^15.0.0",
     "openapi-types": "^12",
     "playwright": "^1.59.1"
