@@ -4,7 +4,8 @@ window.renderMolfile = function renderMolfile(molfile) {
 	ketcher.init()
 	ketcher.setMolecule(molfile)
 	ui.render.update()
-	svg = ui.client_area.querySelector('svg')
+	const svg = ui.client_area.querySelector('svg')
+	if (!svg) throw new Error('Ketcher did not produce an SVG element')
 	svg.querySelectorAll("[style*='display: none'], [opacity='0.0'], desc, defs").forEach((elem) =>
 		elem.remove()
 	)
@@ -15,6 +16,6 @@ window.renderMolfile = function renderMolfile(molfile) {
 	svg.removeAttribute('width')
 	svg.prepend(document.createComment(ketcher.getMolfile()))
 	svg.prepend(document.createComment('Created by Ketcher Backend Service.'))
-	result = svg.outerHTML
+	const result = svg.outerHTML
 	return result
 }
